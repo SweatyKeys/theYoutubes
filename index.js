@@ -14,15 +14,18 @@ function dataFromApi(searchResult, callback){
 function renderResult(result){
   return`
   <h2>${result.snippet.title}</h2>
-  <a href= "https://www.youtube.com/watch?v=${result.id.videoId}"><img src="${result.snippet.thumbnails.medium.url}"></a>
-  <p> Check out more from the channel:<a href= "https://www.youtube.com/channel/${result.snippet.channelId}"> click here</a></p>
+  <a href= "https://www.youtube.com/watch?v=${result.id.videoId}" aria-label="${result.snippet.title}"><img src="${result.snippet.thumbnails.medium.url}" aria-label="${result.snippet.description}"></a>
+  <p> Check out more from the channel:<a href= "https://www.youtube.com/channel/${result.snippet.channelId}" aria-label="Check out more from the ${result.snippet.channelTitle}"> click here</a></p>
   `
 }
 
 function displayYoutubeSearchData(data) {
-  console.log(data);
   const results = data.items.map((item) => renderResult(item));
   $('.js-search-results').html(results);
+}
+
+funtion totalReveal(){
+  $('.js-total').prop('hidden', false);
 }
 
 function watchSubmit() {
@@ -34,6 +37,7 @@ function watchSubmit() {
     // clear out the input
     queryTarget.val("");
     dataFromApi(query, displayYoutubeSearchData);
+    totalReveal();
   });
 }
 
